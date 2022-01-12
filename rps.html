@@ -1,0 +1,50 @@
+<script>
+    function computerPlay() {
+        let randomNumber = Math.floor(Math.random()*3);
+        let x = ''
+        if (randomNumber === 0) {
+            x = 'Scissors';
+            
+        }
+        else if (randomNumber === 1) {
+             x = 'Paper';
+            
+        }
+        else {
+            x = 'Rock';
+            
+        }
+        console.log(x);
+        return x.toLowerCase();
+    }
+
+    const playerSelection = 'rock';
+    ;
+    let playerScore = 0
+    , computerScore = 0 ;
+    
+    function playRound(playerSelection)
+     {  const computerSelection = computerPlay()
+        
+        if (playerSelection === computerSelection) {
+            return 'It\'s a Tie!';
+        }
+        else if (playerSelection === 'rock' && computerSelection==='scissors') {
+            return `You Win! ${playerSelection} beats ${computerSelection}` ;
+            playerScore = playerScore + 1;
+        }
+        else if (playerSelection === 'rock' && computerSelection === 'paper') {
+            return `You Lose! ${computerSelection} beats ${playerSelection}` ;
+            computerScore = computerScore + 1;
+        }
+    }
+   
+
+    function game() {
+        for (var i = 0; i < 6; i++) {
+            playRound(playerSelection,computerSelection)
+        }
+    }
+
+
+  </script>
