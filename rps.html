@@ -1,3 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock, Paper, Scissors</title>
+    <link rel = 'stylesheet' href = 'styles.css'>
+</head>
+<body>
+<div class = 'container'>Rock Paper Scissors Battle</div>
+<div class = 'box'>
+    <div class= 'rules'> First to 5 Wins... </div>
+    <div class = 'text'> Choose Your Weapon! </div>
+    <div class = 'choices'>
+        <div class = 'scissors'>
+            <div class ='title'>Rock</div>
+            <input class = 'r' type ='image' src='images/stone.png'>
+        </div>
+        <div class= 'rock'>
+            <div class ='title'>Scissors </div>
+            <input class = 's' type='image' src='images/scissors.png'>
+        </div>
+        <div class = 'paper'>  
+            <div class ='title'>Paper</div>
+            <input class = 'p' type = 'image' src='images/newspaper.png'>
+        </div>
+</div>
+    
+    </div>
+    <p class = 'finalResult'>First to 5 Wins!</p>
+    <p class = 'scoreboard'>Player Score: 0 Computer Score: 0</p>
+        <div class = 'info'></div>
+            <div class = 'picks'></div>
+                <p class = 'computerPick'></p>
+                <p class = 'playerPick'></p>
+            <p class = 'roundResult'></p>
+            
+            <button class = 'reset'>Play Again</button>
+</body>
+</html>
+
+
+
 <script>
     let playerScore = 0;
     let computerScore = 0;
@@ -19,23 +63,38 @@
         x = x.toLowerCase()
         return x
     }
+
+    const roundResult = document.querySelector('.roundResult');
+    const resultsBox = document.createElement('div');
+    const pickP = document.querySelector('.playerPick');
+    const pickC = document.querySelector('.computerPick');
+    const score = document.querySelector('.scoreboard')
+
+    const inputS = document.querySelector('.s');
+    const inputR = document.querySelector('.r');
+    const inputP = document.querySelector('.p');
+
+    resultsBox.style.cssText = 'border: thick black'
+    resultsBox.textContent = ''
+    roundResult.appendChild(resultsBox);
     
     function playRound(playerSelection, computerSelection){
         
-        console.log(`Player selects: ${playerSelection}`);
-        console.log(`Computer selects: ${computerSelection}`);
+        pickP.textContent = `Player selects: ${playerSelection.toUpperCase()}`;
+        pickC.textContent = `Computer selects: ${computerSelection.toUpperCase()}`;
         switch(playerSelection) {
             case 'rock':
                 switch(computerSelection){
                     case 'rock':
-                        console.log('it\s a Tie!');
+                        resultsBox.textContent = 'It\'s a Tie!';
+
                         break;
                     case 'scissors':
-                        console.log('Player Wins!')
+                        resultsBox.textContent = 'Player Wins!'
                         playerScore = playerScore + 1;
                         break;
                     case 'paper':
-                        console.log('Computer Wins!');
+                        resultsBox.textContent ='Computer Wins!';
                         computerScore = computerScore + 1;
                         break;
                     }
@@ -43,14 +102,14 @@
             case 'scissors':
                 switch(computerSelection){
                     case 'scissors':
-                        console.log('Round is a Tie');
+                        resultsBox.textContent ='Round is a Tie';
                         break;
                     case 'paper': 
-                        console.log('Player Wins Round!')
+                        resultsBox.textContent = 'Player Wins Round!';
                         playerScore = playerScore + 1
                         break;
                     case 'rock':
-                        console.log('Computer Wins Round!')
+                        resultsBox.textContent ='Computer Wins Round!';
                         computerScore = computerScore + 1
                         break;
                     }
@@ -58,44 +117,100 @@
             case 'paper':
                 switch(computerSelection) {
                     case 'paper': 
-                        console.log('Round is a Tie!');
+                        resultsBox.textContent ='Round is a Tie!';
                         break;
                     case 'rock': 
-                        console.log('Player Wins Round!');
+                        resultsBox.textContent ='Player Wins Round!';
                         playerScore = playerScore + 1;
                         break;
                     case 'scissors':
-                        console.log('Computer Wins Round!');
+                        resultsBox.textContent ='Computer Wins Round!';
                         computerScore = computerScore + 1
                     }
                 break;
+        
         }
+        score.textContent = 'Player Score: ' + playerScore + ' Computer Score: ' + computerScore
 
+        if (playerScore === 5 || computerScore === 5) {
+            inputS.disabled = true;
+            inputR.disabled = true;
+            inputP.disabled = true;
+            if (playerScore>computerScore){
+            finalResult.textContent ="PLAYER WINS THE GAME!";
+        }
+            else if (playerScore<computerScore){
+            finalResult.textContent = "COMPUTER WINS THE GAME!";
+        }
+            else {
+            finalResult.textContent = "NO ONE WINS! THE GAME IS A TIE!!!";
+        }
+       
+        }
 
     }
     
-    function game() {
-        for (let i=1; i <= 5; i++) {
-            console.log('Round #' + i);
-            let playerChoice = prompt('Choose Weapon: ');
-            let playerSelection = playerChoice.toLowerCase();
-            let computerSelection = computerPlay();
-            playRound(playerSelection,computerSelection)
-        }
-        console.log('Player Score:' + playerScore)
-        console.log('Computer Score: ' + computerScore)
-        
-        if (playerScore>computerScore){
-            console.log("PLAYER WINS THE GAME!")
-        }
-        else if (playerScore<computerScore){
-            console.log("COMPUTER WINS THE GAME!")
-        }
-        else {
-            console.log("NO ONE WINS! THE GAME IS A TIE!!!")
-        }
+    const finalResult = document.querySelector('.finalResult')
+
+    const buttonRock = document.querySelector('.r')
+    buttonRock.addEventListener('click', () => {
+        console.log('Player clicked Rock')
+
+        return playRound('rock',computerPlay())
+    });
+    const buttonPaper = document.querySelector('.p')
+    buttonPaper.addEventListener('click',()=>{
+        console.log('Player clicked Paper')
+        return playRound('paper', computerPlay())
+    }); 
+
+    const buttonScissors = document.querySelector('.s')
+
+    buttonScissors.addEventListener('click',()=> {
+        return playRound('scissors', computerPlay())
+    });
+    
+     
+    let buttonReset = document.querySelector('.reset')   
+    
+    function startOver() {
+        finalResult.textContent = 'First to 5 Wins!'
+        inputS.disabled = false;
+        inputR.disabled = false;
+        inputP.disabled = false;
+        playerScore = 0
+        computerScore = 0
     }
-game()
+    
+    buttonReset.addEventListener('click',()=> {
+        console.log('Should Reset')
+        return startOver()
+    
+    });
+    
+    
+    
+    //function game() {
+    //    for (let i=1; i <= 5; i++) {
+    //        console.log('Round #' + i);
+    //        let playerSelection = playerChoice.toLowerCase();
+    //        let computerSelection = computerPlay();
+    //        playRound(playerSelection,computerSelection)
+    //    }
+    //    console.log('Player Score:' + playerScore)
+    //    console.log('Computer Score: ' + computerScore)
+        
+    //    if (playerScore>computerScore){
+    //        console.log("PLAYER WINS THE GAME!")
+    //    }
+    //    else if (playerScore<computerScore){
+    //        console.log("COMPUTER WINS THE GAME!")
+    //    }
+    //    else {
+    //        console.log("NO ONE WINS! THE GAME IS A TIE!!!")
+    //    }
+    //}
+//game()
 </script>
 
 
